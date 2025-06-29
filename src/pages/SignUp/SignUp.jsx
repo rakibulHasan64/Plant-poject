@@ -4,10 +4,13 @@ import useAuth from '../../hooks/useAuth'
 import { toast } from 'react-hot-toast'
 import { TbFidgetSpinner } from 'react-icons/tb'
 import { imageUpload } from '../../api/utils'
+import useAxiosSecure from '../../hooks/useAxiosSecure'
+
 
 const SignUp = () => {
   const { createUser, updateUserProfile, signInWithGoogle, loading } = useAuth()
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
   // form submit handler
   const handleSubmit = async event => {
     event.preventDefault()
@@ -22,12 +25,20 @@ const SignUp = () => {
     const imageUrl = await imageUpload(image)
 
     try {
-      //2. User Registration
+
       const result = await createUser(email, password)
 
-      //3. Save username & profile photo
+    
       await updateUserProfile(name, imageUrl)
-      console.log(result)
+      const userInfo = {
+        name,
+        email,
+        image: imageUrl,
+        role: "user",
+        createdAt: new Date()
+      };
+
+      await axiosSecure.post("/userall", userInfo);
 
       navigate('/')
       toast.success('Signup Successful')
