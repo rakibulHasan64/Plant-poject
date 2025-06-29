@@ -15,14 +15,15 @@ const Navbar = () => {
           <div className='flex flex-row  items-center justify-between gap-3 md:gap-0'>
             {/* Logo */}
             <Link to='/'>
-              <img src="/1-removebg-preview.png" alt='logo' className='w-20   h-10' />
+              <img src="https://opencart.templatetrip.com/OPC07/OPC190_nursery/OPC01/image/catalog/logo.png" alt='logo' className='' />
             </Link>
             {/* Dropdown Menu */}
 
 
             <div className="flex gap-4">
+              <Link to="/" className="text-xl">Home</Link>
               <Link to="/plant" className="text-xl">Plant</Link>
-              <Link to="/home" className="text-xl">Home</Link>
+              
             </div>
             <div className='relative'>
               <div className='flex flex-row items-center gap-3'>

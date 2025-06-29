@@ -14,6 +14,7 @@ import MainLayout from '../layouts/MainLayout'
 import MyInventory from '../pages/Dashboard/Seller/MyInventory'
 import ManageOrders from '../pages/Dashboard/Seller/ManageOrders'
 import MyOrders from '../pages/Dashboard/Customer/MyOrders'
+import PlantStatik from '../components/Plantsatatik/PlantStatik'
 
 export const router = createBrowserRouter([
   {
@@ -23,9 +24,17 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '/',
+        index:true,
         element: <Home />,
         loader: () => fetch(`${import.meta.env.VITE_API_URL}/plants`),
       },
+      {
+
+        path: "/plant",
+        element: <PlantStatik />
+
+      },
+
       {
         path: '/plant/:id',
         element: <PlantDetails />,
