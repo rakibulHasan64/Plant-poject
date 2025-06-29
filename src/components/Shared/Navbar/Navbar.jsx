@@ -1,12 +1,50 @@
 import Container from '../Container'
 import { AiOutlineMenu } from 'react-icons/ai'
-import { useState } from 'react'
+import { LiaShoppingCartSolid } from "react-icons/lia";
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router'
 import useAuth from '../../../hooks/useAuth'
 import avatarImg from '../../../assets/images/placeholder.jpg'
+import { MagnifyingGlassIcon, UserIcon } from "@heroicons/react/24/outline";
+import SharchModal from '../../Modal/SharchModal'
+import { FaLeaf } from "react-icons/fa";
+import AddToCatModa from '../../Modal/AddToCatModa';
+import { fetchCartItems } from '../../../api/api';
 const Navbar = () => {
-  const { user, logOut } = useAuth()
-  const [isOpen, setIsOpen] = useState(false)
+  const { user, logOut} = useAuth()
+  const [isOpen, setIsOpen] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [cartCount, setCartCount] = useState([]);
+  const [addtocartmodal, setAddtocartmodal] = useState(false);
+
+  const handleModal = () => {
+    setModal(true); 
+  }
+
+  const handmodaloff = () => {
+    setModal(false);
+  }
+  const handleAddTocart = () =>{
+    setAddtocartmodal(true)
+  } 
+
+  const handaddtocartmodal = () => {
+    setAddtocartmodal(false)
+  }
+
+  
+
+  useEffect(() => {
+    if (user?.email) {
+      fetchCartItems(user.email)
+        .then(data => setCartCount(data.length))
+        .catch(err => console.error(err));
+    }
+  }, [user]);
+  console.log(cartCount);
+  
+
+
 
   return (
     <div className='fixed w-full bg-white z-10 shadow-sm'>
@@ -20,13 +58,32 @@ const Navbar = () => {
             {/* Dropdown Menu */}
 
 
-            <div className="flex gap-4">
+            <div className="flex gap-4 ">
               <Link to="/" className="text-xl">Home</Link>
               <Link to="/plant" className="text-xl">Plant</Link>
               
             </div>
             <div className='relative'>
               <div className='flex flex-row items-center gap-3'>
+                <button onClick={handleAddTocart} className="relative text-black hover:text-black">
+                  <LiaShoppingCartSolid className="w-10 h-8" />
+                  {/* <span className="absolute -top-1 -right-1 bg-green-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                    
+                  </span> */}
+                </button>
+
+
+
+                  <button onClick={handleModal} className="p-2 text-black hover:text-black">
+                  <MagnifyingGlassIcon className="h-6 w-6" />
+                </button>
+
+                <Link to={"/login"}>
+                  <button className="p-2 text-black hover:text-black">
+                    <UserIcon className="h-6 w-6" />
+                  </button>
+                </Link>
+                
                 {/* Dropdown btn */}
                 <div
                   onClick={() => setIsOpen(!isOpen)}
@@ -92,9 +149,25 @@ const Navbar = () => {
               )}
             </div>
 
+            
+
           </div>
         </Container>
+      
       </div>
+      {
+        modal &&
+        <>
+          <SharchModal handmodaloff={handmodaloff} />
+        </>
+      }
+
+      {
+        addtocartmodal && 
+        <>
+          <AddToCatModa handaddtocartmodal={handaddtocartmodal} />
+        </>
+      }
     </div>
   )
 }
