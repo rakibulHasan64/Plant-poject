@@ -12,3 +12,17 @@ export const imageUpload = async imageData => {
   // image url response from imgbb
   return data?.data?.display_url
 }
+
+
+//save or updated user in db
+
+
+export const saveUserInDb = async (user) => {
+
+  const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/user`,
+    user
+    
+  );
+  console.log(data);
+  
+}

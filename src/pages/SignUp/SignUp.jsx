@@ -3,14 +3,14 @@ import { FcGoogle } from 'react-icons/fc'
 import useAuth from '../../hooks/useAuth'
 import { toast } from 'react-hot-toast'
 import { TbFidgetSpinner } from 'react-icons/tb'
-import { imageUpload } from '../../api/utils'
-import useAxiosSecure from '../../hooks/useAxiosSecure'
+import { imageUpload, saveUserInDb } from '../../api/utils'
+
 
 
 const SignUp = () => {
   const { createUser, updateUserProfile, signInWithGoogle, loading } = useAuth()
   const navigate = useNavigate();
-  const axiosSecure = useAxiosSecure();
+
   // form submit handler
   const handleSubmit = async event => {
     event.preventDefault()
@@ -34,11 +34,10 @@ const SignUp = () => {
         name,
         email,
         image: imageUrl,
-        role: "user",
-        createdAt: new Date()
+      
       };
 
-      await axiosSecure.post("/userall", userInfo);
+      await saveUserInDb(userInfo)
 
       navigate('/')
       toast.success('Signup Successful')
@@ -52,7 +51,17 @@ const SignUp = () => {
   const handleGoogleSignIn = async () => {
     try {
       //User Registration using google
-      await signInWithGoogle()
+      const result = await signInWithGoogle()
+      
+
+        const userData = {
+             name: result?.user?.displayName,
+              email: result?.user?.email,
+              image: result?.user?.photoURL
+       }
+      
+       await saveUserInDb(userData)
+      
 
       navigate('/')
       toast.success('Signup Successful')

@@ -6,7 +6,8 @@ import toast from "react-hot-toast";
 
 
 
-function CheckoutFrom({ totalPrice, closeModal, order }) {
+function CheckoutFrom({ totalPrice, closeModal, order, fetchPlant }) {
+
 
 
    // const { name, description, category, quantity, price, _id, seller, image } =
@@ -29,13 +30,13 @@ function CheckoutFrom({ totalPrice, closeModal, order }) {
 
          setClintSecret(data?.clientSecret)
 
-      
-         
-         
+
+
+
       }
       getClintSecret()
 
-   },[axiosSecure, order])
+   }, [axiosSecure, order])
 
    const handleSubmit = async (event) => {
 
@@ -76,12 +77,12 @@ function CheckoutFrom({ totalPrice, closeModal, order }) {
                billing_details: {
                   name: user?.displayName || "Unknown",
                   email: user?.email || "No email",
-                  
+
                }
             }
          })
-      
-      
+
+
       if (result?.error) {
          setError(result?.error?.message)
          return
@@ -89,29 +90,41 @@ function CheckoutFrom({ totalPrice, closeModal, order }) {
 
       if (result?.paymentIntent?.status === "succeeded") {
          order.transactionId = result?.paymentIntent?.id
-           try {
-              const { data } =await axiosSecure.post("/order", order);
+         try {
+            const { data } = await axiosSecure.post("/order", order);
 
-              if (data?.insertedId) {
-                 toast.success("✅ Order placed successfully!");
-             }
-              console.log(data);
-           } catch (error) {
-              
-              console.log(error);
-              
+            if (data?.insertedId) {
+               toast.success("✅ Order placed successfully!");
+            }
+
+            const { data: result } = await axiosSecure.patch(
+               `/quantity-update/${order.plantId}`,
+               {
+                  quantityToUpdate: order.quantity,
+                  status: "decrease",
+               }
+            );
+            fetchPlant();
+
+            console.log(result);
             
-           } finally {
-              setProcessinge(false);
-              setError(null)
-              closeModal()
-           }
-         
+           
+         } catch (error) {
+
+            console.log(error);
+
+
+         } finally {
+            setProcessinge(false);
+            setError(null)
+            closeModal()
+         }
+
       }
-       console.log(result);
-       
-      
-      
+      console.log(result);
+
+
+
    };
    return (
       <>

@@ -9,7 +9,7 @@ import { Elements } from '@stripe/react-stripe-js';
 
 const stripePromise = loadStripe(import.meta.env.VITE_SEKRET_PS_KEY);
 
-const PurchaseModal = ({ closeModal, isOpen, plant }) => {
+const PurchaseModal = ({ closeModal, isOpen, plant,fetchPlant }) => {
   // Total Price Calculation
   const { user } = useAuth();
 
@@ -125,7 +125,7 @@ const PurchaseModal = ({ closeModal, isOpen, plant }) => {
             </div>
 
             <Elements stripe={stripePromise}>
-              <CheckoutFrom closeModal={closeModal} order={order} totalPrice={totalPrice} />
+              <CheckoutFrom fetchPlant={fetchPlant} closeModal={closeModal} order={order} totalPrice={totalPrice} />
             </Elements>
 
           </DialogPanel>
