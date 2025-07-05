@@ -17,18 +17,25 @@ import LoadingSpinner from '../../Shared/LoadingSpinner'
 const Sidebar = () => {
   const { logOut } = useAuth()
   const [isActive, setIsActive] = useState(false)
-  const [role, isRoleLoading] = useRole();
+  // const [role, isRoleLoading] = useRole();
 
-  
+  const { role, isRoleLoading } = useRole();
+
+
+
+  if (isRoleLoading) {
+    return <LoadingSpinner />
+  }
 
   // Sidebar Responsive Handler
   const handleToggle = () => {
     setIsActive(!isActive)
   }
 
-  if (isRoleLoading) {
-    return <LoadingSpinner />
-  }
+
+
+
+
   return (
     <>
       {/* Small Screen Navbar */}

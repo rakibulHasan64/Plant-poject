@@ -27,6 +27,7 @@ const AddPlant = () => {
         name,
         category,
         description,
+        status: "panding",
         price: parseFloat(price),
         quantity: parseInt(quantity),
         image: uploadedImage,

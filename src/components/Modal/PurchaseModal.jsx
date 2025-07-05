@@ -24,6 +24,7 @@ const PurchaseModal = ({ closeModal, isOpen, plant,fetchPlant }) => {
     seller,
     plantId: _id,
     quantity: 1,
+    status: "panding",
     price: price,
     PlantName: name,
     plantCatagory: category,

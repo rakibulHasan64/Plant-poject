@@ -15,6 +15,8 @@ import MyInventory from '../pages/Dashboard/Seller/MyInventory'
 import ManageOrders from '../pages/Dashboard/Seller/ManageOrders'
 import MyOrders from '../pages/Dashboard/Customer/MyOrders'
 import PlantStatik from '../components/Plantsatatik/PlantStatik'
+import AdminRoute from './AdminRoute'
+import SellarRoute from './SellarRoute'
 
 export const router = createBrowserRouter([
   {
@@ -38,8 +40,7 @@ export const router = createBrowserRouter([
       {
         path: '/plant/:id',
         element: <PlantDetails />,
-        // loader: ({ params }) =>
-        //   fetch(`${import.meta.env.VITE_API_URL}/plants/${params.id}`),
+         
       },
     ],
   },
@@ -57,7 +58,7 @@ export const router = createBrowserRouter([
         index: true,
         element: (
           <PrivateRoute>
-            <Statistics />
+            <AdminRoute><Statistics /></AdminRoute>
           </PrivateRoute>
         ),
       },
@@ -65,7 +66,7 @@ export const router = createBrowserRouter([
         path: 'add-plant',
         element: (
           <PrivateRoute>
-            <AddPlant />
+            <SellarRoute><AddPlant /></SellarRoute>
           </PrivateRoute>
         ),
       },
@@ -73,7 +74,7 @@ export const router = createBrowserRouter([
         path: 'my-inventory',
         element: (
           <PrivateRoute>
-            <MyInventory />
+            <SellarRoute><MyInventory /></SellarRoute>
           </PrivateRoute>
         ),
       },
@@ -81,9 +82,13 @@ export const router = createBrowserRouter([
         path: 'manage-users',
         element: (
           <PrivateRoute>
-            <ManageUsers />
+            <AdminRoute>  <ManageUsers /></AdminRoute>
+            
+            
           </PrivateRoute>
-        ),
+        ) 
+        
+        
       },
       {
         path: 'profile',
@@ -95,15 +100,13 @@ export const router = createBrowserRouter([
       },
       {
         path: 'my-orders',
-        element: (
-          <PrivateRoute>
-            <MyOrders />
-          </PrivateRoute>
-        ),
+        element: <MyOrders />,
+      
+        
       },
       {
         path: 'manage-orders',
-        element: <ManageOrders />,
+        element: <SellarRoute><ManageOrders /></SellarRoute>
       },
     ],
   },

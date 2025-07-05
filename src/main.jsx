@@ -4,6 +4,7 @@ import './index.css'
 import { RouterProvider } from 'react-router'
 import { router } from './routes/Routes'
 import AuthProvider from './providers/AuthProvider'
+import 'react-calendar/dist/Calendar.css'
 import { Toaster } from 'react-hot-toast'
 import {
   
@@ -11,7 +12,7 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

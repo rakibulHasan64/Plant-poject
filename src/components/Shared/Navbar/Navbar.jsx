@@ -41,7 +41,7 @@ const Navbar = () => {
         .catch(err => console.error(err));
     }
   }, [user]);
-  console.log(cartCount);
+  
   
 
 

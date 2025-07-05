@@ -5,7 +5,8 @@ import useRole from '../../../hooks/useRole';
 import LoadingSpinner from '../../../components/Shared/LoadingSpinner';
 const Profile = () => {
   const { user } = useAuth()
-  const [role, isRoleLoading] = useRole();
+
+  const { role, isRoleLoading } = useRole();
 
   if (isRoleLoading) {
     return <LoadingSpinner />

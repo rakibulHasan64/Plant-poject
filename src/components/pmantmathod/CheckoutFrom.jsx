@@ -25,7 +25,9 @@ function CheckoutFrom({ totalPrice, closeModal, order, fetchPlant }) {
       const getClintSecret = async () => {
          const { data } = await axiosSecure.post('/create-payment-intent', {
             quantity: order?.quantity,
-            plantId: order?.plantId
+            plantId: order?.plantId,
+            
+
          })
 
          setClintSecret(data?.clientSecret)

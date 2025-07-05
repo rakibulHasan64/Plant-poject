@@ -16,11 +16,12 @@ const PlantDetails = () => {
   const { id } = useParams();
   const { user } = useAuth();
   // const [plant, setPlant] = useState();
-  const [role, isRoleLoading] = useRole();
+
+  const { role, isRoleLoading } = useRole();
 
 
 
-  const {data: plant,isLoading,refetch} = useQuery({
+  const { data: plant, isLoading, refetch } = useQuery({
     queryKey: ['plant', id],
     queryFn: async () => {
       const { data } = await axios(`${import.meta.env.VITE_API_URL}/plants/${id}`)
@@ -32,14 +33,14 @@ const PlantDetails = () => {
   if (!plant || typeof plant !== 'object') return <p>Sorry bro</p>
   const { name, description, category, quantity, price, _id, seller, image } =
     plant || {}
-   
-  
+
+
 
   const closeModal = () => {
     setIsOpen(false)
   }
 
-  
+
 
   if (isRoleLoading || isLoading) {
     return <LoadingSpinner />
